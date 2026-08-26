@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Lenis from 'lenis'
 import '../styles/globals.css'
@@ -12,6 +13,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isGame = pathname?.startsWith('/gta6') ?? false
   const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
@@ -56,6 +59,8 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body>
+        {isGame ? children : (
+        <>
         {/* Progress bar */}
         <motion.div
           className="progress-bar"
@@ -454,6 +459,8 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </>
+        )}
 
         <style jsx global>{`
           @media (max-width: 768px) {
